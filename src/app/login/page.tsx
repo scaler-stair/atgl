@@ -9,7 +9,6 @@ export const metadata: Metadata = { title: "Sign in" };
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   if (await currentUser()) redirect("/");
   const { next } = await searchParams;
-  const staging = config.appEnv !== "production";
   return (
     <main className="grid min-h-dvh lg:grid-cols-[1.1fr_1fr]">
       <section className="relative hidden overflow-hidden bg-[#14202c] p-12 text-white lg:flex lg:flex-col lg:justify-between">
@@ -28,14 +27,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <h2 className="font-display text-[26px] font-semibold text-ink">Sign in</h2>
           <p className="mt-1 text-[13.5px] text-ink-2">Use your named ATGL account. Shared logins are not permitted.</p>
           <LoginForm next={next ?? "/"} />
-          {staging && (
-            <div className="mt-8 rounded-md border border-line bg-surface px-3 py-2.5 text-[12.5px] text-ink-2">
-              <p className="font-semibold text-warn">Staging environment, synthetic data</p>
-              <p className="mt-1">
-                Demo accounts: <code>admin</code>, <code>leadership</code>, <code>operations</code>, <code>engineering</code>, <code>finance</code>, <code>security</code>, <code>siteuser</code>, <code>viewer</code>. The password is the <code>DEMO_USER_PASSWORD</code> value in <code>.env.local</code>.
-              </p>
-            </div>
-          )}
         </div>
       </section>
     </main>
