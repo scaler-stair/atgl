@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "crons": [
+    { "path": "/api/agents/run?agent=data-quality", "schedule": "0 * * * *" },
+    { "path": "/api/agents/run", "schedule": "30 */6 * * *" }
+  ]
+}

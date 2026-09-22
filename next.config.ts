@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Keep screenshots and demos free of the development badge.
+  devIndicators: false,
 };
 
 export default nextConfig;

@@ -1,26 +1,255 @@
 @import "tailwindcss";
 
+/*
+ * ATGL intelligence design tokens.
+ * Paper: cool control-room grey. Brand magenta is reserved for identity and
+ * primary actions; teal carries gas/data flow; amber/red are status only.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #eef1f4;
+  --surface: #ffffff;
+  --surface-2: #f6f8fa;
+  --ink: #16202b;
+  --ink-2: #4b5766;
+  --ink-3: #7a8594;
+  --line: #d7dde4;
+  --line-2: #e6eaef;
+  --brand: #a3286b;
+  --brand-ink: #ffffff;
+  --brand-soft: #f7e8f0;
+  --flow: #0e7472;
+  --flow-soft: #e2f1f0;
+  --ok: #2e7d4f;
+  --ok-soft: #e4f2e9;
+  --warn: #a8660b;
+  --warn-soft: #fbf0dc;
+  --crit: #b42318;
+  --crit-soft: #fce8e6;
+  --info: #3659a8;
+  --info-soft: #e7edf9;
+  --focus: #3659a8;
+  --chart-1: #0e7472;
+  --chart-2: #a3286b;
+  --chart-3: #6b7c93;
+  --chart-4: #c98a1b;
+  --chart-5: #3659a8;
+  --band-staging: #a8660b;
+  --band-production: #a3286b;
+  --band-development: #3659a8;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --paper: #0f151c;
+    --surface: #17202a;
+    --surface-2: #1c2632;
+    --ink: #e6ebf1;
+    --ink-2: #aab4c0;
+    --ink-3: #7d8896;
+    --line: #2b3643;
+    --line-2: #232d39;
+    --brand: #e0579f;
+    --brand-ink: #1a0b13;
+    --brand-soft: #3a1a2b;
+    --flow: #3fb5b0;
+    --flow-soft: #12302f;
+    --ok: #57b77f;
+    --ok-soft: #14301f;
+    --warn: #e0a041;
+    --warn-soft: #36270f;
+    --crit: #f2685c;
+    --crit-soft: #3b1714;
+    --info: #86a6ec;
+    --info-soft: #1a2640;
+    --focus: #86a6ec;
+    --chart-1: #3fb5b0;
+    --chart-2: #e0579f;
+    --chart-3: #8d9bb0;
+    --chart-4: #e0a041;
+    --chart-5: #86a6ec;
+    color-scheme: dark;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-flow: var(--flow);
+  --color-flow-soft: var(--flow-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-crit: var(--crit);
+  --color-crit-soft: var(--crit-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-body), sans-serif;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@layer components {
+/* Data tables: dense, ruled, numeric columns right-aligned. */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-2);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  background: var(--surface-2);
+  position: sticky;
+  top: 0;
+}
+.data-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line-2);
+  vertical-align: top;
+}
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+.data-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+.data-table tbody tr:hover td {
+  background: var(--surface-2);
+}
+
+.field {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 14px;
+}
+.field:focus {
+  border-color: var(--focus);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 20%, transparent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--surface-2);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--brand) 88%, black);
+}
+.btn-quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ink-2);
+  padding: 5px 8px;
+}
+
+/* Copilot markdown */
+.prose-answer p {
+  margin: 0 0 10px;
+}
+.prose-answer ul {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  list-style: disc;
+}
+.prose-answer li {
+  margin: 3px 0;
+}
+.prose-answer strong {
+  font-weight: 650;
+}
+.prose-answer em {
+  color: var(--ink-3);
+}
+
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
