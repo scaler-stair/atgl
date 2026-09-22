@@ -57,12 +57,14 @@ Never commit these. `.env.local` stays local.
 
 ## 5. Scheduled agent runs
 
-`vercel.json` includes two cron jobs:
+`vercel.json` includes two cron jobs, both daily because the Hobby plan rejects anything more frequent:
 
-- `/api/agents/run?agent=data-quality` hourly
-- `/api/agents/run` (all agents) every six hours
+- `/api/agents/run` (all agents) at 01:00 UTC, which is 06:30 IST
+- `/api/agents/run?agent=data-quality` at 13:00 UTC, which is 18:30 IST
 
-Vercel sends a GET with `Authorization: Bearer $CRON_SECRET`, which the endpoint accepts alongside `AGENT_SCHEDULER_TOKEN`. On the Hobby plan crons run at most once a day, so either upgrade or trigger runs yourself:
+Schedules are always in UTC. On the Pro plan, change them to the operating cadence you want, for example `0 * * * *` (hourly) for data quality and `30 */6 * * *` for the full set.
+
+Vercel sends a GET with `Authorization: Bearer $CRON_SECRET`, which the endpoint accepts alongside `AGENT_SCHEDULER_TOKEN`. To run the agents at any time:
 
 ```bash
 curl -X POST -H "Authorization: Bearer $AGENT_SCHEDULER_TOKEN" https://<your-app>.vercel.app/api/agents/run
